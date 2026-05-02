@@ -1,4 +1,4 @@
-## 🛠️ Installation
+### Installation
 
 ### Prerequisites
 - Python 3.9+
@@ -29,7 +29,7 @@ python new_train.py
 ```
 python test.py
 ```
-6.Model Features
+### 6.Model Features
 
 1.Accuracy: High accuracy on MNIST test set
 2.Confusion Matrix: Visual evaluation of prediction performance
