@@ -1,6 +1,7 @@
 import torch
 import pandas as pd
 from new_train import get_model
+import matplotlib.pyplot as plt
 test = pd.read_csv("dataset/mnist_test.csv")
 X_test = test.values / 255.0
 X_test = torch.tensor(X_test, dtype=torch.float32)
@@ -18,7 +19,6 @@ with torch.no_grad():
 
 
 print("Predictions:", preds[:20])
-import matplotlib.pyplot as plt
 
 for i in range(20):
     plt.imshow(X_test[i].reshape(28,28), cmap="gray")

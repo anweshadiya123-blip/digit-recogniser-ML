@@ -1,9 +1,12 @@
+import matplotlib
 import torch
 import torch.nn as nn
 import pandas as pd
 from torch.utils.data import DataLoader, TensorDataset
 import matplotlib.pyplot as plt
-
+matplotlib.use("TkAgg")
+import seaborn as sns
+from sklearn.metrics import accuracy_score, confusion_matrix
 # 📦 Load data
 train = pd.read_csv("dataset/mnist_train.csv")
 
@@ -61,6 +64,26 @@ if __name__ == "__main__":
 
 # 🧪 Accuracy check (fast now)
     model.eval()
+    model.eval()
+all_preds = []
+all_labels = []
+
+with torch.no_grad():
+    for xb, yb in train_loader:
+        output = model(xb)
+        preds = output.argmax(dim=1)
+
+        all_preds.extend(preds.cpu().numpy())
+        all_labels.extend(yb.cpu().numpy())
+
+# Accuracy
+    acc = accuracy_score(all_labels, all_preds)
+    print("Accuracy:", acc)
+
+    # Confusion Matrix
+    cm = confusion_matrix(all_labels, all_preds)
+    print(cm)
+
     correct = 0
     total = 0
     with torch.no_grad():
@@ -87,3 +110,11 @@ if __name__ == "__main__":
         pred = model(X[idx].unsqueeze(0)).argmax().item()
         print("Actual:", y[idx].item(), "Pred:", pred)
 
+plt.figure(figsize=(8,6))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title("Confusion Matrix")
+
+plt.show()
